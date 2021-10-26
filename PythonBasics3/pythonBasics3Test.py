@@ -38,6 +38,12 @@ class TestPythonBasicsOne(unittest.TestCase):
 
         self.assertEqual(pythonBasics3.multiple_words(" one-sided? "), False)
 
+        self.assertEqual(pythonBasics3.multiple_words("two people"), True)
+
+        self.assertEqual(pythonBasics3.multiple_words("one-person"), False)
+
+        self.assertEqual(pythonBasics3.multiple_words("hello buddy"), True)
+
         # Please add three more test cases following the order above
 
 
