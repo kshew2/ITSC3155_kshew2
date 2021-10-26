@@ -33,6 +33,8 @@ def longest_consecutive_repeating_char(s):
 # forwards. Treat capital letters the same as lowercase ones
 # and ignore spaces (i.e. case insensitive).
 def is_palindrome(s):
-  # YOUR CODE HERE
+  if (palindrome == true):
+    print(isPalindrome)
+
 
   return
