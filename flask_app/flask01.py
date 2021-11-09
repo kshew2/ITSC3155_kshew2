@@ -10,8 +10,9 @@ app = Flask(__name__)     # create an app
 # In this case it makes it so anyone going to "your-url/" makes this function
 # get called. What it returns is what is shown as the web page
 @app.route('/')
-def hello():
-    return 'Hello World!'
+@app.route('/index')
+def index():
+    return 'Welcome, Notes App User!'
 
 app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)),debug=True)
 
