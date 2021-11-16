@@ -7,6 +7,8 @@ from flask import render_template
 #from flask import request
 #from flask import redirect
 from database import db
+from models import Note as Note
+from models import User as User
 
 
 app = Flask(__name__)  # create an app
@@ -19,9 +21,9 @@ db.init_app(app)
 with app.app_context():
     db.create_all() # run under the app context
 
-notes = {1: {'title': 'First note', 'text': 'This is my first note', 'date': '10-1-2020'},
-         2: {'title': 'Secomd note', 'text': 'This is my second note', 'date': '10-3-2020'}
-         3: {'title': 'Third note', 'text': 'This is my third note', 'date': '10-3-2020'}}
+#notes = {1: {'title': 'First note', 'text': 'This is my first note', 'date': '10-1-2020'},
+#         2: {'title': 'Secomd note', 'text': 'This is my second note', 'date': '10-3-2020'}
+#         3: {'title': 'Third note', 'text': 'This is my third note', 'date': '10-3-2020'}}
 
 
 # @app.route is a decorator. It gives the function "index" special powers.
@@ -29,7 +31,8 @@ notes = {1: {'title': 'First note', 'text': 'This is my first note', 'date': '10
 # get called. What it returns is what is shown as the web page
 @app.route('/index')
 def index():
-    a_user = {'name': 'Khalil Shew', 'email': 'kshew2@uncc.edu'}
+    a_user = db.session.query(User).filter_by(email='kshew2@uncc.edu')
+    my_notes = db.session.query(User).filter_by(Note).all()
     return render_template("index.html", user=a_user)
 
 
@@ -42,7 +45,7 @@ def get_notes():
 def new_notes():
     a_user = {'name': 'Mogli', 'email': 'mogli@uncc.edu'}
 
-    print('request method is', requestg.method)
+    print('request method is', request.method)
     if request.method == 'POST':
         title = request.form['title']
         text = request.form['noteText']
@@ -51,8 +54,12 @@ def new_notes():
         today = today.strftime("%m-%d-%Y")
         id = len(notes)+1
         notes[id] = {'title': title, 'text': text, 'date': today}
+        db.session.add(new_record)
+        db.session.commit()
+
         return redirect(url_for('get_notes'))
     else:
+        a_user = db.session.query(User).filter_by(email='kshew2@uncc.edu')
         return render_template('new.html', user=a_user)
 
 
