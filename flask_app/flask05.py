@@ -7,8 +7,8 @@ from flask import render_template
 #from flask import request
 #from flask import redirect
 from database import db
-from models import Note as Note
-from models import User as User
+#from models import Note as Note
+#from models import User as User
 
 
 app = Flask(__name__)  # create an app
@@ -61,6 +61,12 @@ def new_notes():
     else:
         a_user = db.session.query(User).filter_by(email='kshew2@uncc.edu')
         return render_template('new.html', user=a_user)
+
+@app.route('/notes/edit/<note_id>')
+def update_note(note_id):
+    a_user=db.session.query(User).filter_by(email='kshew2@uncc.edu').one()
+    my_note = db.session.query(Note).filter_by(id=note_id).one()
+    return render_template('new.html', note=my_note, user=a_user)
 
 
 #@app.route('/notes/<note_id>')
